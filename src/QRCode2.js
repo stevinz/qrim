@@ -20,6 +20,7 @@ class QRCode {
     static CorrectLevel = QRErrorCorrectLevel;
     static Styles = {
         Square: 0,
+        Circle: 1,
     }
 
     #element;
@@ -72,6 +73,8 @@ class QRCode {
         const nRoundedWidth = Math.round(nWidth);
         const nRoundedHeight = Math.round(nHeight);
 
+        console.log(`Width: ${nWidth}, Rounded W: ${nRoundedWidth}`);
+
         this.clear();
         for (let row = 0; row < nCount; row++) {
             for (let col = 0; col < nCount; col++) {
@@ -79,13 +82,31 @@ class QRCode {
                 if (! isDark) continue;
                 const nLeft = col * nWidth;
                 const nTop = row * nHeight;
-                this.#context.lineWidth = 1;
+                this.#context.lineWidth = 2;
                 this.#context.strokeStyle = this.#options.colorDark;
                 this.#context.fillStyle = this.#options.colorDark;
-                this.#context.fillRect(nLeft, nTop, nWidth, nHeight);
-                // Stroke fills in half pixel canvas gaps
-                this.#context.strokeRect(Math.floor(nLeft) + 0.5, Math.floor(nTop) + 0.5, nRoundedWidth, nRoundedHeight);
-                this.#context.strokeRect(Math.ceil(nLeft) - 0.5, Math.ceil(nTop) - 0.5, nRoundedWidth, nRoundedHeight);
+
+                switch (this.#options.style) {
+                    case QRCode.Styles.Square:
+                        this.#context.fillRect(nLeft, nTop, nWidth, nHeight);
+
+                        this.#context.strokeStyle = "#ff0000";
+
+                        const tinyLeft1 = Math.ceil(nLeft) - 0.5;
+                        const tinyLeft2 = Math.floor(nLeft) + 0.5;
+
+                        console.log(`tinyLeft1: ${tinyLeft1}, tinyLeft2: ${tinyLeft2}`);
+
+                        // const fullWidth = nRoundedWidth + (Math.floor(nLeft) + 0.5 - tinyLeft);
+
+                        //this.#context.strokeRect(tinyLeft, Math.floor(nTop) + 0.5, fullWidth, nRoundedHeight);
+                        //this.#context.strokeRect(Math.ceil(nLeft) - 0.5, Math.ceil(nTop) - 0.5, nRoundedWidth, nRoundedHeight);
+
+                        break;
+                    case QRCode.Styles.Circle:
+                        this.#context.fillRect(nLeft, nTop, nWidth, nHeight);
+                        break;
+                }
             }
         }
 

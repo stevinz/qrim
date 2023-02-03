@@ -8,12 +8,15 @@ body {
     position: absolute;
     display: flex;
     flex-direction: column;
-    width: 50%;
-    min-width: 640;
+    width: 80%;
+    min-width: 640px;
+    left: 0;
+    right: 0;
     top: 0;
     bottom: 0;
-    margin: auto;
-    transform: translateX(50%);
+    margin-left: auto;
+    margin-right: auto;
+    /* transform: translateX(20%); */
 }
 
 .Spacer {
