@@ -15,11 +15,52 @@ export const QRMaskPattern = { PATTERN000: 0, PATTERN001: 1, PATTERN010: 2, PATT
  */
 class QRUtil {
 
-    static PATTERN_POSITION_TABLE = [[], [6,18], [6,22], [6,26], [6,30], [6,34], [6,22,38], [6,24,42], [6,26,46], [6,28,50], [6,30,54], [6,32,58], [6,34,62], [6,26,46,66], [6,26,48,70], [6,26,50,74], [6,30,54,78], [6,30,56,82], [6,30,58,86], [6,34,62,90], [6,28,50,72,94], [6,26,50,74,98], [6,30,54,78,102], [6,28,54,80,106], [6,32,58,84,110], [6,30,58,86,114], [6,34,62,90,118], [6,26,50,74,98,122], [6,30,54,78,102,126], [6,26,52,78,104,130], [6,30,56,82,108,134], [6,34,60,86,112,138], [6,30,58,86,114,142], [6,34,62,90,118,146], [6,30,54,78,102,126,150], [6,24,50,76,102,128,154], [6,28,54,80,106,132,158], [6,32,58,84,110,136,162], [6,26,54,82,110,138,166], [6,30,58,86,114,142,170]];
+    static PATTERN_POSITION_TABLE = [
+        [],
+        [6, 18],
+        [6, 22],
+        [6, 26],
+        [6, 30],
+        [6, 34],
+        [6, 22, 38],
+        [6, 24, 42],
+        [6, 26, 46],
+        [6, 28, 50],
+        [6, 30, 54],
+        [6, 32, 58],
+        [6, 34, 62],
+        [6, 26, 46, 66],
+        [6, 26, 48, 70],
+        [6, 26, 50, 74],
+        [6, 30, 54, 78],
+        [6, 30, 56, 82],
+        [6, 30, 58, 86],
+        [6, 34, 62, 90],
+        [6, 28, 50, 72, 94],
+        [6, 26, 50, 74, 98],
+        [6, 30, 54, 78, 102],
+        [6, 28, 54, 80, 106],
+        [6, 32, 58, 84, 110],
+        [6, 30, 58, 86, 114],
+        [6, 34, 62, 90, 118],
+        [6, 26, 50, 74, 98, 122],
+        [6, 30, 54, 78, 102, 126],
+        [6, 26, 52, 78, 104, 130],
+        [6, 30, 56, 82, 108, 134],
+        [6, 34, 60, 86, 112, 138],
+        [6, 30, 58, 86, 114, 142],
+        [6, 34, 62, 90, 118, 146],
+        [6, 30, 54, 78, 102, 126, 150],
+        [6, 24, 50, 76, 102, 128, 154],
+        [6, 28, 54, 80, 106, 132, 158],
+        [6, 32, 58, 84, 110, 136, 162],
+        [6, 26, 54, 82, 110, 138, 166],
+        [6, 30, 58, 86, 114, 142, 170]
+    ];
 
-    static G15 = (1<<10) | (1<<8) | (1<<5) | (1<<4) | (1<<2) | (1<<1) | (1<<0);
-    static G18 = (1<<12) | (1<<11) | (1<<10) | (1<<9) | (1<<8) | (1<<5) | (1<<2) | (1<<0);
-    static G15_MASK = (1<<14) | (1<<12) | (1<<10) | (1<<4) | (1<<1);
+    static G15 = (1 << 10) | (1 << 8) | (1 << 5) | (1 << 4) | (1 << 2) | (1 << 1) | (1 << 0);
+    static G18 = (1 << 12) | (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0);
+    static G15_MASK = (1 << 14) | (1 << 12) | (1 << 10) | (1 << 4) | (1 << 1);
 
     static getBCHTypeInfo(data) {
         let d = data << 10;
@@ -52,14 +93,14 @@ class QRUtil {
 
     static getMask(maskPattern, i, j) {
         switch(maskPattern) {
-            case QRMaskPattern.PATTERN000: return (i+j)%2==0;
-            case QRMaskPattern.PATTERN001: return i%2==0;
-            case QRMaskPattern.PATTERN010: return j%3==0;
-            case QRMaskPattern.PATTERN011: return (i+j)%3==0;
-            case QRMaskPattern.PATTERN100: return (Math.floor(i/2)+Math.floor(j/3))%2==0;
-            case QRMaskPattern.PATTERN101: return (i*j)%2+(i*j)%3==0;
-            case QRMaskPattern.PATTERN110: return ((i*j)%2+(i*j)%3)%2==0;
-            case QRMaskPattern.PATTERN111: return ((i*j)%3+(i+j)%2)%2==0;
+            case QRMaskPattern.PATTERN000: return (i + j) % 2 == 0;
+            case QRMaskPattern.PATTERN001: return i % 2 == 0;
+            case QRMaskPattern.PATTERN010: return j % 3 == 0;
+            case QRMaskPattern.PATTERN011: return (i + j) % 3 == 0;
+            case QRMaskPattern.PATTERN100: return (Math.floor(i / 2) + Math.floor(j / 3)) % 2 == 0;
+            case QRMaskPattern.PATTERN101: return (i * j) % 2 + (i * j) % 3 == 0;
+            case QRMaskPattern.PATTERN110: return ((i * j) % 2 + (i * j) % 3) % 2 == 0;
+            case QRMaskPattern.PATTERN111: return ((i * j) % 3 + (i + j) % 2) % 2 == 0;
             default: throw new Error("bad maskPattern:" + maskPattern);
         }
     }
@@ -149,6 +190,23 @@ class QRUtil {
         const ratio = Math.abs(100 * darkCount / moduleCount / moduleCount - 50) / 5;
         lostPoint += ratio * 10;
         return lostPoint;
+    }
+
+    static toUTF8(text) {
+        const code = encodeURIComponent(text);
+        let bytes = [];
+        for (let i = 0; i < code.length; i++) {
+            const c = code.charAt(i);
+            if (c === '%') {
+                const hex = code.charAt(i + 1) + code.charAt(i + 2);
+                const hexVal = parseInt(hex, 16);
+                bytes.push(hexVal);
+                i += 2;
+            } else {
+                bytes.push(c.charCodeAt(0));
+            }
+        }
+        return bytes;
     }
 
 }

@@ -1,0 +1,37 @@
+
+body {
+    background-color: lightslategray;
+}
+
+.Contain {
+    background-color: blueviolet;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    min-width: 640;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    transform: translateX(50%);
+}
+
+.Spacer {
+    height: 20%;
+}
+
+.Row {
+    display: flex;
+}
+
+.QRCode {
+    display: flex;
+    flex: auto;
+    padding: 2em;
+    justify-content: center;
+}
+
+.QRCode img {
+    max-width: 100%;
+    object-fit: contain;
+}

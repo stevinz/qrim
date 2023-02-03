@@ -1,44 +1,49 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
-<head>
-<title>Cross-Browser QRCode generator for Javascript</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
-<script type="text/javascript" src="jquery.min.js"></script>
-<script type="text/javascript" src="qrcode.js"></script>
-</head>
-<body>
-<input id="text" type="text" value="http://jindo.dev.naver.com/collie" style="width:80%" /><br />
-<div id="qrcode" style="width:100px; height:100px; margin-top:15px;"></div>
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<title>QRCode Generator</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+		<link rel='stylesheet' href='./main.css' type='text/css'>
+	</head>
+	<body>
 
-<script type="text/javascript">
-var qrcode = new QRCode(document.getElementById("qrcode"), {
-	width : 100,
-	height : 100
-});
+		<div class="Contain">
+			<div class="Spacer"></div>
+			<input id="Text" type="text" value="Enter Text Here! 🤪">
+			<div class="Row">
+				<span class="QRCode" id="Code1"></span>
+				<span class="QRCode" id="Code2"></span>
+			</div>
+		</div>
 
-function makeCode () {		
-	var elText = document.getElementById("text");
-	
-	if (!elText.value) {
-		alert("Input a text");
-		elText.focus();
-		return;
-	}
-	
-	qrcode.makeCode(elText.value);
-}
+		<script type='module'>
 
-makeCode();
+            import { QRCode } from '../src/QRCode.js';
 
-$("#text").
-	on("blur", function () {
-		makeCode();
-	}).
-	on("keydown", function (e) {
-		if (e.keyCode == 13) {
-			makeCode();
-		}
-	});
-</script>
-</body>
+			const textBox = document.getElementById('Text');
+
+			const qr1 = new QRCode(document.getElementById('Code1'), {
+				width: 256,
+				height: 256,
+				colorDark: "#ffffff",
+				colorLight: "#000000",
+				text: textBox.value,
+			});
+
+			const qr2 = new QRCode(document.getElementById('Code2'), {
+				width: 256,
+				height: 256,
+				colorDark: "#000000",
+				colorLight: "#ffffff",
+				text: textBox.value,
+			});
+
+			textBox.addEventListener('change', () => {
+				qr1.makeCode(textBox.value);
+				qr2.makeCode(textBox.value);
+			});
+
+		</script>
+	</body>
+</html>
