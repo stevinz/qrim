@@ -20,12 +20,13 @@ class QRCode {
     static CorrectLevel = QRErrorCorrectLevel;
     static Styles = {
         Square: 0,
-        Circle: 1,
-        Rounded: 2,
+        Blob: 1,
+        Dots: 2,
     };
 
     #element;
     #options = {
+        text: '',
         size: 1024,
         colorDark: "#000000",
         colorLight: "#ffffff",
@@ -34,7 +35,6 @@ class QRCode {
         opacity: 1,
         style: QRCode.Styles.Square,
         correctLevel: QRErrorCorrectLevel.H,
-        typeNumber: 4,
     };
     #canvas;
     #context;
@@ -64,13 +64,16 @@ class QRCode {
         if (this.#options.text) this.makeCode(this.#options.text);
     }
 
-    makeCode(sText) {
-        this.#element.title = sText;
-        this.draw(sText);
-    }
+    makeCode(params = {}) {
+        if (typeof params === 'string') params = { text: params };
+        if (typeof params === 'object') Object.assign(this.#options, params);
 
-    draw(sText) {
-        const codeModel = new QRCodeModel(sText, this.#options.correctLevel);
+        this.#element.title = this.#options.text;
+        this.#canvas.width = this.#options.size;
+        this.#canvas.height = this.#options.size;
+        this.#image.style.opacity = this.#options.opacity;
+
+        const codeModel = new QRCodeModel(this.#options.text, this.#options.correctLevel);
         const count = codeModel.getModuleCount();
 
         // Sizes
@@ -80,7 +83,8 @@ class QRCode {
         const blockSize = size / (count + (border * 2) + (padding * 2));
         const fatBlock = Math.ceil(blockSize);
         const innerStart = (border + padding) * blockSize;
-        const borderRadius = border * fatBlock;
+        const borderWidth = border * fatBlock;
+        const borderRadius = (this.#options.style === QRCode.Styles.Square) ? 0 : borderWidth;
         this.#image.style.borderRadius = parseFloat((borderRadius / size) * 100).toFixed(3) + '%';
 
         // Clear dark
@@ -92,36 +96,61 @@ class QRCode {
 
         // Draw padding light
         ctx.fillStyle = light;
-        const padSize = size - (borderRadius * 2);
-        ctx.beginPath(); ctx.roundRect(borderRadius, borderRadius, padSize, padSize, [ borderRadius * 0.5 ]); ctx.fill();
+        const padSize = size - (borderWidth * 2);
+        ctx.beginPath(); ctx.roundRect(borderWidth, borderWidth, padSize, padSize, [ borderRadius * 0.5 ]); ctx.fill();
 
-        // Draw dark squares
-        ctx.fillStyle = dark;
-        for (let row = 0; row < count; row++) {
-            for (let col = 0; col < count; col++) {
+        // Draw squares
+        for (let col = 0; col < count; col++) {
+            for (let row = 0; row < count; row++) {
                 const isDark = codeModel.isDark(row, col);
-                if (! isDark) continue;
-
                 const left = (col * blockSize) + innerStart;
                 const top = (row * blockSize) + innerStart;
                 const fatLeft = Math.floor(left);
                 const fatTop = Math.floor(top);
 
                 switch (this.#options.style) {
-                    case QRCode.Styles.Circle:
-                        ctx.beginPath();
-                        ctx.roundRect(left, top, blockSize, blockSize, [ blockSize ]);
-                        ctx.fill();
+                    case QRCode.Styles.Dots:
+                        if (! isDark) continue;
+                        ctx.fillStyle = dark;
+                        ctx.beginPath(); ctx.roundRect(left, top, blockSize, blockSize, [ blockSize ]); ctx.fill();
                         break;
 
-                    case QRCode.Styles.Rounded:
-                        ctx.beginPath();
-                        ctx.roundRect(fatLeft, fatTop, fatBlock, fatBlock, [ fatBlock ]);
-                        ctx.fill();
+                    case QRCode.Styles.Blob:
+                        const checkT = ((row === 0) || ! codeModel.isDark(row - 1, col)) ? 1 : 0;
+                        const checkL = ((col === 0) || ! codeModel.isDark(row, col - 1)) ? 1 : 0;
+                        const checkB = ((row === count - 1) || ! codeModel.isDark(row + 1, col)) ? 1 : 0;
+                        const checkR = ((col === count - 1) || ! codeModel.isDark(row, col + 1)) ? 1 : 0;
+                        const checkTL = ((row === 0) || (col === 0) || ! codeModel.isDark(row - 1, col - 1)) ? 1 : 0;
+                        const checkBR = ((row === count - 1) || (col === count - 1) || ! codeModel.isDark(row + 1, col + 1)) ? 1 : 0;
+                        const checkTR = ((row === 0) || (col === count - 1) || ! codeModel.isDark(row - 1, col + 1)) ? 1 : 0;
+                        const checkBL = ((row === count - 1) || (col === 0) || ! codeModel.isDark(row + 1, col - 1)) ? 1 : 0;
+                        if (isDark) {
+                            const TL = Math.min(checkT, checkL) * fatBlock * 1;
+                            const TR = Math.min(checkT, checkR) * fatBlock * 1;
+                            const BR = Math.min(checkB, checkR) * fatBlock * 1;
+                            const BL = Math.min(checkB, checkL) * fatBlock * 1;
+                            ctx.fillStyle = dark;
+                            ctx.beginPath(); ctx.roundRect(fatLeft, fatTop, fatBlock, fatBlock, [ TL, TR, BR, BL ]); ctx.fill();
+                        } else {
+                            const TL = (checkT || checkL || checkTL) ? 0 : fatBlock * 0.4;
+                            const TR = (checkT || checkR || checkTR) ? 0 : fatBlock * 0.4;
+                            const BR = (checkB || checkR || checkBR) ? 0 : fatBlock * 0.4;
+                            const BL = (checkB || checkL || checkBL) ? 0 : fatBlock * 0.4;
+                            if (TL || TR || BR || BL) {
+                                ctx.fillStyle = dark;
+                                ctx.fillRect(fatLeft, fatTop, fatBlock, fatBlock);
+                                ctx.fillStyle = light;// '#ffaaff';
+                                ctx.beginPath();
+                                ctx.roundRect(fatLeft, fatTop, fatBlock, fatBlock, [ TL, TR, BR, BL ]);
+                                ctx.fill();
+                            }
+                        }
                         break;
 
                     case QRCode.Styles.Square:
                     default:
+                        if (! isDark) continue;
+                        ctx.fillStyle = dark;
                         ctx.fillRect(fatLeft, fatTop, fatBlock, fatBlock);
                 }
             }

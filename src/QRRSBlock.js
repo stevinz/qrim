@@ -1,4 +1,9 @@
-export const QRErrorCorrectLevel = { L: 1, M: 0, Q: 3, H: 2 };
+export const QRErrorCorrectLevel = {
+    L: 1,   // 7%
+    M: 0,   // 15%
+    Q: 3,   // 25%
+    H: 2,   // 30%
+};
 
 const RS_BLOCK_TABLE = [
     // L

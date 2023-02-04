@@ -14,33 +14,71 @@
 			<div class="Row">
 				<span class="QRCode" id="Code1"></span>
 				<span class="QRCode" id="Code2"></span>
+				<span class="QRCode" id="Code3"></span>
 			</div>
 		</div>
 
 		<script type='module'>
 
+			// Imports
+			import { Gooey } from 'http://unpkg.com/@scidian/osui/build/osui.module.js';
             import { QRCode } from '../src/QRCode.js';
 
+			// Get elements
 			const textBox = document.getElementById('Text');
+			const code1 = document.getElementById('Code1');
+			const code2 = document.getElementById('Code2');
+			const code3 = document.getElementById('Code3');
 
-			const qr1 = new QRCode(document.getElementById('Code1'), {
-				text: textBox.value,
-			});
+			// Init QRCodes
+			const qr1 = new QRCode(code1, { text: textBox.value });
+			const qr2 = new QRCode(code2, { text: textBox.value, style: QRCode.Styles.Blob, });
+			const qr3 = new QRCode(code3, { text: textBox.value, style: QRCode.Styles.Dots, });
 
-			const qr2 = new QRCode(document.getElementById('Code2'), {
-				text: textBox.value,
-				colorDark: "#ffffff",
-				colorLight: "#000000",
+			// Gui params
+			const params = {
+				colorDark: "#000000",
+				colorLight: "#ffffff",
+				size: 1024,
 				border: 1,
-				padding: 3,
-				opacity: 0.75,
-				style: QRCode.Styles.Circle,
-			});
+				padding: 1,
+				opacity: 1,
+            }
 
-			textBox.addEventListener('change', () => {
-				qr1.makeCode(textBox.value);
-				qr2.makeCode(textBox.value);
-			});
+			// Gui (Gooey)
+			const gui = new Gooey('QRCode.js');
+            const folder1 = gui.addFolder('Options');
+			folder1.addColor(params, 'colorDark').onChange(miniUpdate).onFinishChange(updateCodes);
+			folder1.addColor(params, 'colorLight').onChange(miniUpdate).onFinishChange(updateCodes);
+            folder1.add(params, 'size', 64, 1024, 64, 0).onChange(miniUpdate).onFinishChange(updateCodes);
+			folder1.add(params, 'border', 0, 10, 0.1, 2).onChange(miniUpdate).onFinishChange(updateCodes);
+			folder1.add(params, 'padding', 0, 10, 0.1, 2).onChange(miniUpdate).onFinishChange(updateCodes);
+			folder1.add(params, 'opacity', 0, 1, 0.01, 2).onChange(miniUpdate).onFinishChange(updateCodes);
+
+			// Limit updates
+			let lastUpdated = performance.now();
+			let updateTimeout = undefined;
+			function miniUpdate() {
+				clearTimeout(updateTimeout);
+				if (performance.now() - lastUpdated < 100) {
+					updateTimeout = setTimeout(() => miniUpdate(), 25);
+					return;
+				}
+				updateCodes();
+				lastUpdated = performance.now();
+			}
+
+			// Update
+			function updateCodes() {
+				const updates = Object.assign({ text: textBox.value }, params);
+				qr1.makeCode(updates);
+				qr2.makeCode(updates);
+				qr3.makeCode(updates);
+			}
+
+			// Input event
+			textBox.addEventListener('keyup', miniUpdate);
+			textBox.addEventListener('change', updateCodes);
 
 		</script>
 	</body>
