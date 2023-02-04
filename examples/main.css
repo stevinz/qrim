@@ -8,15 +8,14 @@ body {
     position: absolute;
     display: flex;
     flex-direction: column;
-    width: 80%;
-    min-width: 640px;
+    width: 640px;
+    min-width: 80%;
+    max-width: 100%;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-    margin-left: auto;
-    margin-right: auto;
-    /* transform: translateX(20%); */
+    margin: auto;
 }
 
 .Spacer {
@@ -37,4 +36,5 @@ body {
 .QRCode img {
     max-width: 100%;
     object-fit: contain;
+    margin: auto;
 }

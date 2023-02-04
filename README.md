@@ -18,8 +18,7 @@ or with some options
 <script type="text/javascript">
 var qrcode = new QRCode(document.getElementById("qrcode"), {
 	text: "http://jindo.dev.naver.com/collie",
-	width: 128,
-	height: 128,
+	size: 128,
 	colorDark : "#000000",
 	colorLight : "#ffffff",
 	correctLevel : QRCode.CorrectLevel.H
@@ -30,6 +29,5 @@ var qrcode = new QRCode(document.getElementById("qrcode"), {
 and you can use some methods
 
 ```
-qrcode.clear(); // clear the code.
 qrcode.makeCode("http://naver.com"); // make another code.
 ```

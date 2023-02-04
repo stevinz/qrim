@@ -19,24 +19,22 @@
 
 		<script type='module'>
 
-            import { QRCode } from '../src/QRCode2.js';
+            import { QRCode } from '../src/QRCode.js';
 
 			const textBox = document.getElementById('Text');
 
 			const qr1 = new QRCode(document.getElementById('Code1'), {
-				width: 512,
-				height: 512,
-				colorDark: "#ffffff",
-				colorLight: "#000000",
 				text: textBox.value,
 			});
 
 			const qr2 = new QRCode(document.getElementById('Code2'), {
-				width: 512,
-				height: 512,
-				colorDark: "#000000",
-				colorLight: "#ffffff",
 				text: textBox.value,
+				colorDark: "#ffffff",
+				colorLight: "#000000",
+				border: 1,
+				padding: 3,
+				opacity: 0.75,
+				style: QRCode.Styles.Circle,
 			});
 
 			textBox.addEventListener('change', () => {
