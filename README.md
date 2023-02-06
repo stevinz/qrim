@@ -3,6 +3,27 @@ Qrim (QR Image Maker), a JavaScript library for generating QR Code images.
 
 Origianly forked from [qrcode.js](https://github.com/davidshimjs/qrcodejs). Removed legacy code, refactored to support ES modules, included UTF8 character support, and added stylization options.
 
+## Install
+
+- Option 1: Copy file `qrim.module.js`, import from file...
+
+```javascript
+import { QRCode } from 'qrim.module.js';
+```
+
+- Option 2: Install from [npm](https://www.npmjs.com/package/qrim), import from 'qrim'...
+```
+npm install qrim
+```
+```javascript
+import { QRCode } from 'qrim';
+```
+
+- Option 3: Import directly from CDN...
+```javascript
+import { QRCode } from 'https://unpkg.com/qrim/build/qrim.module.js';
+```
+
 ## Usage
 ```javascript
 <div id="qrcode"></div>
@@ -11,10 +32,8 @@ Origianly forked from [qrcode.js](https://github.com/davidshimjs/qrcodejs). Remo
 
 import { QRCode } from 'qrim';
 
-// Call options:
-// = new QRCode(HTMLElement, String);
-// = new QRCode(HTMLElement, Params Object);
-const qr = new QRCode(document.getElementById("qrcode"), "http://www.code.com");
+const el = document.getElementById("qrcode");
+const qr = new QRCode(el, "http://www.code.com");
 
 </script>
 ```
@@ -22,9 +41,7 @@ const qr = new QRCode(document.getElementById("qrcode"), "http://www.code.com");
 ## Options
 Parameters object, all properties are optional
 ```javascript
-import { QRCode } from 'qrim';
-
-const qr = new QRCode(document.getElementById("qrcode"), {
+const qr = new QRCode(el, {
     text: "http://www.domain.com",          // text to generate
     size: 1024,                             // image dimensions
     colorDark : "#000000",                  // block color
@@ -39,10 +56,10 @@ const qr = new QRCode(document.getElementById("qrcode"), {
 
 ## Methods
 ```javascript
-// Generate a code from new text
+// make new code from new text
 qr.makeCode("http://www.newcode.com");
 
-// ...or generate a code from updated parameters
+// ...or make new code from updated parameters
 const params = {
     text: "http://www.newcode.com",
     size: 2048,
