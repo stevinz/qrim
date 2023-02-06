@@ -1,6 +1,6 @@
 {
     "name": "qrim",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Stylized JavaScript QR Code image generator with UTF8 support.",
     "module": "src/index.js",
     "main": "build/qrim.module.js",
