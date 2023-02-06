@@ -1,9 +1,9 @@
 MIT License
 
-Copyright (c) 2009 kazuhikoarase           https://github.com/kazuhikoarase/qrcode-generator
-Copyright (c) 2012 davidshimjs (bundle)    https://github.com/davidshimjs/qrcodejs
-Copyright (c) 2022 19z (UTF-8)             https://github.com/19z/qrcodejs-fixUTF8
 Copyright (c) 2023 stevinz (module)        https://github.com/stevinz/qrcodejs
+Copyright (c) 2022 19z (UTF-8)             https://github.com/19z/qrcodejs-fixUTF8
+Copyright (c) 2012 davidshimjs (bundle)    https://github.com/davidshimjs/qrcodejs
+Copyright (c) 2009 kazuhikoarase           https://github.com/kazuhikoarase/qrcode-generator
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

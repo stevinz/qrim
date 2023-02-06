@@ -1,5 +1,5 @@
 import { QRMode } from './QRUtils.js';
-import { QRUtil } from './QRUtils.js';
+import { QRUtils } from './QRUtils.js';
 
 /**
  * QR8bitByte
@@ -9,7 +9,7 @@ class QR8bitByte {
     constructor(data) {
         this.mode = QRMode.MODE_8BIT_BYTE;
         this.data = data;
-        this.parsedData = QRUtil.toUTF8(data)
+        this.parsedData = QRUtils.toUTF8(data)
     }
 
     getLength(buffer) {

@@ -1,8 +1,8 @@
 import { QR8bitByte } from './QR8bitByte.js';
 import { QRBitBuffer } from './QRBitBuffer.js';
-import { QRPolynomial } from './QRPolynominal.js';
+import { QRPolynomial } from './QRPolynomial.js';
 import { QRErrorCorrectLevel, QRRSBlock } from './QRRSBlock.js';
-import { QRUtil } from './QRUtils.js';
+import { QRUtils } from './QRUtils.js';
 
 export const QRCodeLimitLength = [
     [  17,   14,   11,    7], [  32,   26,   20,   14], [  53,   42,   32,   24], [  78,   62,   46,   34],
@@ -25,7 +25,7 @@ class QRCodeModel {
     constructor(sText, errorCorrectLevel) {
         // Get type number
         let nType = 1;
-        let length = QRUtil.toUTF8(sText).length;
+        let length = QRUtils.toUTF8(sText).length;
         for (let i = 0, len = QRCodeLimitLength.length; i <= len; i++) {
             let nLimit = 0;
             switch (errorCorrectLevel) {
@@ -102,7 +102,7 @@ class QRCodeModel {
         let pattern = 0;
         for (let i = 0; i < 8; i++) {
             this.makeImpl(true, i);
-            let lostPoint = QRUtil.getLostPoint(this);
+            let lostPoint = QRUtils.getLostPoint(this);
             if (i == 0 || minLostPoint > lostPoint) {
                 minLostPoint = lostPoint;
                 pattern = i;
@@ -123,7 +123,7 @@ class QRCodeModel {
     }
 
     setupPositionAdjustPattern() {
-        let pos = QRUtil.getPatternPosition(this.typeNumber);
+        let pos = QRUtils.getPatternPosition(this.typeNumber);
         for (let i = 0; i < pos.length; i++) {
             for (let j = 0; j < pos.length; j++) {
                 let row = pos[i];
@@ -143,7 +143,7 @@ class QRCodeModel {
     }
 
     setupTypeNumber(test) {
-        let bits = QRUtil.getBCHTypeNumber(this.typeNumber);
+        let bits = QRUtils.getBCHTypeNumber(this.typeNumber);
         for (let i = 0; i < 18; i++) {
             let mod = (!test && ((bits >> i) & 1) == 1);
             this.modules[Math.floor(i / 3)][i % 3 + this.moduleCount - 8 - 3] = mod;
@@ -156,7 +156,7 @@ class QRCodeModel {
 
     setupTypeInfo(test,maskPattern) {
         let data = (this.errorCorrectLevel << 3) | maskPattern;
-        let bits = QRUtil.getBCHTypeInfo(data);
+        let bits = QRUtils.getBCHTypeInfo(data);
         for (let i = 0; i < 15; i++) {
             let mod=(!test && ((bits >> i) & 1) == 1);
             if (i < 6) {
@@ -192,7 +192,7 @@ class QRCodeModel {
                     if (this.modules[row][col - c] == null) {
                         let dark = false;
                         if (byteIndex < data.length) dark = (((data[byteIndex] >>> bitIndex) & 1) == 1);
-                        let mask = QRUtil.getMask(maskPattern, row, col - c);
+                        let mask = QRUtils.getMask(maskPattern, row, col - c);
                         if (mask) dark = !dark;
                         this.modules[row][col - c] = dark;
                         bitIndex--;
@@ -221,7 +221,7 @@ class QRCodeModel {
         for (let i = 0; i < dataList.length; i++) {
             let data = dataList[i];
             buffer.put(data.mode, 4);
-            buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber));
+            buffer.put(data.getLength(), QRUtils.getLengthInBits(data.mode, typeNumber));
             data.write(buffer);
         }
         let totalDataCount = 0;
@@ -254,7 +254,7 @@ class QRCodeModel {
             dcdata[r] = new Array(dcCount);
             for (let i = 0; i < dcdata[r].length; i++) dcdata[r][i] = 0xff & buffer.buffer[i + offset];
             offset += dcCount;
-            let rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
+            let rsPoly = QRUtils.getErrorCorrectPolynomial(ecCount);
             let rawPoly = new QRPolynomial(dcdata[r],rsPoly.getLength() - 1);
             let modPoly = rawPoly.mod(rsPoly);
             ecdata[r] = new Array(rsPoly.getLength() - 1);

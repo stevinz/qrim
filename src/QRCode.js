@@ -1,14 +1,3 @@
-/**
- * @description QRCode
- * @about       Generator for QR Code
- * @license     MIT
- * @author      kazuhikoarase           https://github.com/kazuhikoarase/qrcode-generator
- * @author      davidshimjs (bundle)    https://github.com/davidshimjs/qrcodejs
- * @author      19z (UTF-8)             https://github.com/19z/qrcodejs-fixUTF8
- * @author      stevinz (module)        https://github.com/stevinz/qrcodejs
- * @trademark   QR Code ® DENSO WAVE    https://www.qrcode.com
- */
-
 import { QRCodeModel } from './QRCodeModel.js';
 import { QRErrorCorrectLevel } from './QRRSBlock.js';
 

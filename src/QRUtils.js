@@ -1,5 +1,5 @@
 import { QRMath } from './QRMath.js';
-import { QRPolynomial } from './QRPolynominal.js';
+import { QRPolynomial } from './QRPolynomial.js';
 
 export const QRMode = {
     MODE_NUMBER: 1 << 0,
@@ -11,9 +11,9 @@ export const QRMode = {
 export const QRMaskPattern = { PATTERN000: 0, PATTERN001: 1, PATTERN010: 2, PATTERN011: 3, PATTERN100: 4, PATTERN101: 5, PATTERN110: 6, PATTERN111: 7 };
 
 /**
- * QRUtil
+ * QRUtils
  */
-class QRUtil {
+class QRUtils {
 
     static PATTERN_POSITION_TABLE = [
         [],
@@ -64,16 +64,16 @@ class QRUtil {
 
     static getBCHTypeInfo(data) {
         let d = data << 10;
-        while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) >= 0) {
-            d ^= (QRUtil.G15 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15)));
+        while (QRUtils.getBCHDigit(d) - QRUtils.getBCHDigit(QRUtils.G15) >= 0) {
+            d ^= (QRUtils.G15 << (QRUtils.getBCHDigit(d) - QRUtils.getBCHDigit(QRUtils.G15)));
         }
-        return ((data << 10) | d) ^ QRUtil.G15_MASK;
+        return ((data << 10) | d) ^ QRUtils.G15_MASK;
     }
 
     static getBCHTypeNumber(data) {
         let d = data << 12;
-        while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) >= 0) {
-            d ^= (QRUtil.G18 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18)));
+        while (QRUtils.getBCHDigit(d) - QRUtils.getBCHDigit(QRUtils.G18) >= 0) {
+            d ^= (QRUtils.G18 << (QRUtils.getBCHDigit(d) - QRUtils.getBCHDigit(QRUtils.G18)));
         }
         return (data << 12) | d;
     }
@@ -88,7 +88,7 @@ class QRUtil {
     }
 
     static getPatternPosition(typeNumber) {
-        return QRUtil.PATTERN_POSITION_TABLE[typeNumber - 1];
+        return QRUtils.PATTERN_POSITION_TABLE[typeNumber - 1];
     }
 
     static getMask(maskPattern, i, j) {
@@ -211,4 +211,4 @@ class QRUtil {
 
 }
 
-export { QRUtil };
+export { QRUtils };

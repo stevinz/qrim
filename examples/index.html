@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang='en'>
 	<head>
-		<title>QRCode Generator</title>
+		<title>Qrim (QR Image Imaker)</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
 		<link rel='stylesheet' href='./main.css' type='text/css'>
 	</head>
 	<body>
-		<div class="Info">QRCode - <a hrtef='https://github.com/stevinz/qrcodejs'>GitHub Repository</a></div>
+		<div class="Info">Qrim (QR Image Imaker) - <a hrtef='https://github.com/stevinz/qrim'>GitHub Repository</a></div>
 		<div class="Background"></div>
 		<div class="Contain">
 			<div class="Spacer"></div>
@@ -24,6 +24,7 @@
 			// Imports
 			import { Gooey } from 'http://unpkg.com/@scidian/osui/build/osui.module.js';
             import { QRCode } from '../src/QRCode.js';
+			// import { QRCode } from 'http://unpkg.com/qrim/build/qrim.module.js';
 
 			// Get elements
 			const textBox = document.getElementById('Text');
@@ -47,8 +48,8 @@
             }
 
 			// Gui (Gooey)
-			const gui = new Gooey('QRCode.js');
-            const folder1 = gui.addFolder('Options');
+			const gui = new Gooey();
+            const folder1 = gui.addFolder('Qrim Options');
 			folder1.addColor(params, 'colorDark').onChange(miniUpdate).onFinishChange(updateCodes);
 			folder1.addColor(params, 'colorLight').onChange(miniUpdate).onFinishChange(updateCodes);
             folder1.add(params, 'size', 64, 1024, 64, 0).onChange(miniUpdate).onFinishChange(updateCodes);
