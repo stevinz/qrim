@@ -1,5 +1,7 @@
-# QRCode.js
-JavaScript library for generating QR Codes with stylization options, UTF8 support and no dependencies. Available as an ES6 import.
+# QR Image Maker
+JavaScript library for generating QR Code images with stylization options, UTF8 support and no dependencies. Available as an ES module import.
+
+Origianlly started as a fork from [qrcode.js](https://github.com/davidshimjs/qrcodejs), refactored to support ES modules.
 
 ## Usage
 Html file
@@ -8,7 +10,7 @@ Html file
 ```
 Js file
 ```javascript
-import { QRCode } from '@stevinz/qrcode';
+import { QRCode } from 'qr-image-maker';
 
 const qrcode = new QRCode(document.getElementById("qrcode"), "http://www.code.com");
 ```
@@ -16,7 +18,7 @@ const qrcode = new QRCode(document.getElementById("qrcode"), "http://www.code.co
 ## Options
 Parameters object, all properties are optional
 ```javascript
-import { QRCode } from '@stevinz/qrcode';
+import { QRCode } from 'qr-image-maker';
 
 const qrcode = new QRCode(document.getElementById("qrcode"), {
     text: "http://www.domain.com",          // text to generate

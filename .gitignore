@@ -1,4 +1,15 @@
-.DS_Store
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
 
-.idea
-.project
+# Hidden Files
+.DS_Store
+.history/
+
+# Build Files
+node_modules/
+out/
+stats.html
