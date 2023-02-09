@@ -14,11 +14,12 @@
     margin: auto;
     text-align: center;
     color: rgb(var(--text));
-    z-index: 10000;
+    z-index: 100;
 }
 
 .Info a {
     color: rgb(var(--icon));
+    pointer-events: all;
 }
 
 .Contain {
@@ -45,7 +46,7 @@
 }
 
 #Text {
-    width: 80%;
+    width: 50%;
     margin-left: auto;
     margin-right: auto;
 }

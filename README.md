@@ -1,7 +1,7 @@
 # Qrim
 Qrim (QR Image Maker), a JavaScript library for generating QR Code images.
 
-Origianly forked from [qrcode.js](https://github.com/davidshimjs/qrcodejs). Removed legacy code, refactored to support ES modules, included UTF8 character support, and added stylization options.
+Originally forked from [qrcode.js](https://github.com/davidshimjs/qrcodejs). Removed legacy code, refactored to support ES modules, included UTF8 character support, and added stylization options.
 
 ## Install
 
