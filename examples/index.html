@@ -37,6 +37,14 @@
             const qr2 = new QRCode(code2, { text: 'temp', style: QRCode.Styles.Blob, });
             const qr3 = new QRCode(code3, { text: 'temp', style: QRCode.Styles.Dots, });
 
+            // Correction levels
+            const correctLevels = [
+                '15%',  // L: 1,     7% - Smallest size
+                ' 7%',  // M: 0,    15% - Balanced
+                '30%',  // Q: 3,    25% - Good for print
+                '25%',  // H: 2,    30% - Best for codes subject to damage
+            ]
+
             // Gui params
             const params = {
                 colorDark: "#000000",
@@ -45,6 +53,7 @@
                 border: 1,
                 padding: 1,
                 opacity: 1,
+                correctLevel: 2,
             }
 
             // Gui (Gooey)
@@ -56,11 +65,15 @@
             folder1.add(params, 'border', 0, 10, 0.1, 2).onChange(miniUpdate).onFinishChange(updateCodes);
             folder1.add(params, 'padding', 0, 10, 0.1, 2).onChange(miniUpdate).onFinishChange(updateCodes);
             folder1.add(params, 'opacity', 0, 1, 0.01, 2).onChange(miniUpdate).onFinishChange(updateCodes);
+            folder1.add(params, 'opacity', 0, 1, 0.01, 2).onChange(miniUpdate).onFinishChange(updateCodes);
+            folder1.add(params, 'correctLevel', correctLevels).onChange(miniUpdate).onFinishChange(updateCodes);
 
             // Limit updates
             let lastUpdated = performance.now();
             let updateTimeout = undefined;
             function miniUpdate() {
+                console.log(params.correctLevel);
+
                 clearTimeout(updateTimeout);
                 if (performance.now() - lastUpdated < 100) {
                     updateTimeout = setTimeout(() => miniUpdate(), 25);

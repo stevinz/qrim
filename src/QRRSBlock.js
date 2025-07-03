@@ -1,8 +1,8 @@
 export const QRErrorCorrectLevel = {
-    L: 1,   // 7%
-    M: 0,   // 15%
-    Q: 3,   // 25%
-    H: 2,   // 30%
+    L: 1,   //  7% - Smallest size
+    M: 0,   // 15% - Balanced
+    Q: 3,   // 25% - Good for print
+    H: 2,   // 30% - Best for codes subject to damage
 };
 
 const RS_BLOCK_TABLE = [
