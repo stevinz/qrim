@@ -72,8 +72,6 @@
             let lastUpdated = performance.now();
             let updateTimeout = undefined;
             function miniUpdate() {
-                console.log(params.correctLevel);
-
                 clearTimeout(updateTimeout);
                 if (performance.now() - lastUpdated < 100) {
                     updateTimeout = setTimeout(() => miniUpdate(), 25);
